@@ -1,11 +1,19 @@
 import React from 'react';
-import { Formik, Form, Field } from 'formik';
-import { TextField, Button } from '@material-ui/core';
+import { Formik, Form, Field, useField } from 'formik';
+import { TextField, Button, Checkbox, FormControlLabel } from '@material-ui/core';
+
+
+const MyCheckbox = ({ label, ...props }) => {
+  const [field] = useField(props);
+  return (
+    <FormControlLabel {...field} control={<Checkbox />} label={label} />
+  )
+}
 
 const App = () => (
   <div>
     <Formik
-      initialValues={{ firstName: '', lastName: '', isTall: false }}
+      initialValues={{ firstName: '', lastName: '', receiveEmail: false }}
       onSubmit={(data, { setSubmitting, resetForm }) => {
         setSubmitting(true);
         // make async call
@@ -20,7 +28,7 @@ const App = () => (
           <div>
             <Field placeholder="Last Name" name="lastName" type="input" as={TextField} />
           </div>
-          <Field name="isTall" type="checkbox" />
+          <MyCheckbox label="Receive Email" type="checkbox" name="receiveEmail" />
           <div>
             <Button disabled={isSubmitting} type="submit">
               Submit
